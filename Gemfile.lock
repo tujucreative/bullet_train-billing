@@ -25,6 +25,14 @@ GIT
       possessive
       rails (>= 7.0.0)
       showcase-rails
+    bullet_train-api (1.45.1)
+      bullet_train
+      bullet_train-super_scaffolding
+      doorkeeper
+      factory_bot
+      jbuilder-schema (~> 2.6.6)
+      pagy (~> 9)
+      rails (>= 7.0.0)
     bullet_train-fields (1.45.1)
       chronic
       cloudinary
@@ -40,6 +48,11 @@ GIT
       rails (>= 7.0.0)
     bullet_train-super_load_and_authorize_resource (1.45.1)
       cancancan
+      rails (>= 7.0.0)
+    bullet_train-super_scaffolding (1.45.1)
+      colorize
+      indefinite_article
+      masamune-ast (~> 2.0.2)
       rails (>= 7.0.0)
     bullet_train-themes (1.45.1)
       bullet_train-fields
@@ -173,9 +186,13 @@ GEM
     devise-pwned_password (0.2.0)
       devise (>= 4, < 6)
       pwned (~> 2.4)
+    doorkeeper (5.9.9)
+      railties (>= 5)
     drb (2.2.3)
     erb (6.0.7)
     erubi (1.13.1)
+    factory_bot (6.6.0)
+      activesupport (>= 6.1.0)
     faraday (2.15.1)
       faraday-net_http (>= 2.0, < 3.6)
       json
@@ -196,12 +213,21 @@ GEM
     http_accept_language (2.1.1)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
+    indefinite_article (0.2.5)
+      activesupport
     io-console (0.9.5)
     irb (1.18.0)
       pp (>= 0.6.0)
       prism (>= 1.3.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jbuilder (2.15.1)
+      actionview (>= 7.0.0)
+      activesupport (>= 7.0.0)
+    jbuilder-schema (2.6.9)
+      jbuilder
+      method_source
+      rails (>= 5.0.0)
     json (3.1.0)
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
@@ -216,6 +242,10 @@ GEM
       net-pop
       net-smtp
     marcel (1.2.1)
+    masamune-ast (2.0.2)
+      activesupport
+      prism (>= 0.14.0)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (6.0.6)
       drb (~> 2.0)
@@ -417,6 +447,7 @@ PLATFORMS
 DEPENDENCIES
   active_hash
   bullet_train!
+  bullet_train-api!
   bullet_train-billing!
   sprockets-rails
   sqlite3
@@ -443,12 +474,14 @@ CHECKSUMS
   bigdecimal (4.1.3) sha256=61ebe1e5e559bdc3cc6f2c0ee7f427321fc838f59611c294356eb04d6e21cf66
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   bullet_train (1.45.1)
+  bullet_train-api (1.45.1)
   bullet_train-billing (1.0.12)
   bullet_train-fields (1.45.1)
   bullet_train-has_uuid (1.45.1)
   bullet_train-roles (1.45.1)
   bullet_train-scope_validator (1.45.1)
   bullet_train-super_load_and_authorize_resource (1.45.1)
+  bullet_train-super_scaffolding (1.45.1)
   bullet_train-themes (1.45.1)
   bundler (4.0.20) sha256=7978a8ac648767f5e635bc522445b79e80a52b907a39a36c2d8085ed6bc762ae
   cable_ready (5.0.6) sha256=de1c94beab04b15a47c8794507a0b5d0ce9c0f25edb1b60a7542adc5413ea894
@@ -470,9 +503,11 @@ CHECKSUMS
   date (3.6.0) sha256=18ac945c4e24ebd93534f8eab8c2fd8c5604b3e977105b3798d62a1e8d27b580
   devise (5.0.4) sha256=d605f2b85854e74e56ee789e2d398702bc2d06e6bcd894717a670a3199c74cc1
   devise-pwned_password (0.2.0) sha256=190f2456a20c53319549bda16c3b731ee3781d9d02717279211f0e51dea18f8a
+  doorkeeper (5.9.9) sha256=691fc87815c2ea7c075518be26855c2343bb3cf6a41400a92a5782f62786ec86
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
+  factory_bot (6.6.0) sha256=1fc1b3b5620ec980a6a27aec1b6ec8c250ca82962e970e8a40f93e8d388d4b89
   faraday (2.15.1) sha256=8708154deda739c5e86cc42b74960e23e8491fce0eba9e11639a6a34b1ac288f
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
   faraday-multipart (1.2.0) sha256=7d89a949693714176f612323ca13746a2ded204031a6ba528adee788694ef757
@@ -483,8 +518,11 @@ CHECKSUMS
   hashie (5.2.0) sha256=357a22635195c2e3911fbbc3de9a7d528843d1f42ab0aae02171048f16332d72
   http_accept_language (2.1.1) sha256=0043f0d55a148cf45b604dbdd197cb36437133e990016c68c892d49dbea31634
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
+  indefinite_article (0.2.5) sha256=6d8199c4970ef9c439678de2e7eb201dbae375bb52eba99a65646603f8b7902f
   io-console (0.9.5) sha256=83dd9bbf4c4680416629245b39cd4212eb5f4d9a4ea91804870c1f6b846414d5
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
+  jbuilder (2.15.1) sha256=2430bec28fb0cebacb5875b1009cf9d8bc3c303ccb810c4c8b062a4b51457637
+  jbuilder-schema (2.6.9) sha256=74ec352b1139448b05161c8a21f7c59c2706c5194e26f0e69f998c51f0352e7c
   json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
   language_server-protocol (3.17.0.6) sha256=5ef2c0c138f8267e1bc631d3328347d354f96724b0af22f2c79516120443b7f0
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
@@ -492,6 +530,8 @@ CHECKSUMS
   loofah (2.25.3) sha256=545f14eef0cc2a7de80df560530d593232b7c07e515c5c4e37532d9cb5b0185c
   mail (2.9.1) sha256=06574eca475253d6c18145dd70af80d0eb970182d55053497c5f4d797ea160e8
   marcel (1.2.1) sha256=1678e9360e32f9eafa917c80029e2f6d10b2715c66a4b87b6d0da9b9cd1f859f
+  masamune-ast (2.0.2) sha256=1e81fc610704f71728c4d1e8663230ba611fd8cdbd422565fd6f9fbc5a75589e
+  method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
   multipart-post (2.4.1) sha256=9872d03a8e552020ca096adadbf5e3cb1cd1cdd6acd3c161136b8a5737cdb4a8

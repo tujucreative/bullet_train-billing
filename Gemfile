@@ -6,6 +6,7 @@ gemspec
 
 git "https://github.com/tujucreative/bullet_train-core.git", branch: "main" do
   gem "bullet_train"
+  gem "bullet_train-api"
 end
 
 gem "sqlite3"
