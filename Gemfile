@@ -4,6 +4,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in bullet_train-billing.gemspec.
 gemspec
 
+git "https://github.com/tujucreative/bullet_train-core.git", branch: "main" do
+  gem "bullet_train"
+end
+
 gem "sqlite3"
 
 gem "sprockets-rails"
